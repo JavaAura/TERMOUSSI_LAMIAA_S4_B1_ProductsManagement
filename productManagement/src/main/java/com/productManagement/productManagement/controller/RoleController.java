@@ -32,23 +32,23 @@ public class RoleController {
         return  ResponseEntity.ok(roles);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<RoleResponseDTO> getRoleById(@PathVariable Long id) {
-        RoleResponseDTO role = roleService.getRoleById(id);
-        return  ResponseEntity.ok(role);
-    }
+//    @GetMapping("/{id}")
+//    public ResponseEntity<RoleResponseDTO> getRoleById(@PathVariable Long id) {
+//        RoleResponseDTO role = roleService.getRoleById(id);
+//        return  ResponseEntity.ok(role);
+//    }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<RoleResponseDTO> updateRole(
-            @PathVariable Long id,
-            @Valid @RequestBody RoleRequestDTO roleRequestDTO) {
-        RoleResponseDTO updatedRole = roleService.updateRole(id, roleRequestDTO);
-        return  ResponseEntity.ok(updatedRole);
-    }
+//    @PutMapping("/{id}")
+//    public ResponseEntity<RoleResponseDTO> updateRole(
+//            @PathVariable Long id,
+//            @Valid @RequestBody RoleRequestDTO roleRequestDTO) {
+//        RoleResponseDTO updatedRole = roleService.updateRole(id, roleRequestDTO);
+//        return  ResponseEntity.ok(updatedRole);
+//    }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteRole(@PathVariable Long id) {
-        roleService.deleteRole(id);
-        return ResponseEntity.noContent().build();
-    }
+//    @DeleteMapping("/{id}")
+//    public ResponseEntity<Void> deleteRole(@PathVariable Long id) {
+//        roleService.deleteRole(id);
+//        return ResponseEntity.noContent().build();
+//    }
 }

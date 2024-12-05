@@ -11,7 +11,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class UserResponseDTO {
     private Long id;
-    private String username;
-    private String email;
+    private String login;
+    private boolean active;
     private Set<String> roles;
 }

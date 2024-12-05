@@ -18,37 +18,17 @@ import java.util.stream.Collectors;
 @Mapper(componentModel = "spring")
 @Component
 public interface UserMapper {
-    @Mapping(target = "roles", source = "roles", qualifiedByName = "rolesToRoleNames")
-    UserResponseDTO toDTO(User user);
-
-    // Map UserRequestDTO to User entity
-    @Mapping(target = "roles", source = "roles", qualifiedByName = "roleNamesToRoles")
+    @Mapping(target = "roles", ignore = true)
     User toEntity(UserRequestDTO userRequestDTO);
 
-    // Update User entity using UserRequestDTO
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "roles", source = "roles", qualifiedByName = "roleNamesToRoles")
-    void updateEntityFromDTO(UserRequestDTO userRequestDTO, @MappingTarget User user);
+    @Mapping(source = "roles", target = "roles")
+    UserResponseDTO toDTO(User user);
+//    @Mapping(target = "id", ignore = true)
+//    void updateEntityFromDTO(UserRequestDTO userRequestDTO, @MappingTarget User user);
+default Set<String> map(Set<Role> roles) {
+    return roles.stream()
+            .map(Role::getName)
+            .collect(Collectors.toSet());
+}
 
-    // Custom mapping: Convert Role entities to role names (String)
-    @Named("rolesToRoleNames")
-    default Set<String> rolesToRoleNames(Collection<Role> roles) {
-        if (roles == null) return null;
-        return roles.stream()
-                .map(Role::getName)
-                .collect(Collectors.toSet());
-    }
-
-    // Custom mapping: Convert role names (Strings) to Role entities
-    @Named("roleNamesToRoles")
-    default Set<Role> roleNamesToRoles(Set<String> roleNames) {
-        if (roleNames == null) return null;
-        return roleNames.stream()
-                .map(name -> {
-                    Role role = new Role();
-                    role.setName(name);
-                    return role;
-                })
-                .collect(Collectors.toSet());
-    }
 }
