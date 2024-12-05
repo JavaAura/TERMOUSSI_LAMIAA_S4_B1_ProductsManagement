@@ -75,8 +75,8 @@ public class SecurityConfig {
     public AuthenticationManagerBuilder configureJdbcAuthentication(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication()
                 .dataSource(dataSource)
-                .usersByUsernameQuery("SELECT login, password, active FROM user WHERE login=? AND active=true")
-                .authoritiesByUsernameQuery("SELECT u.login, r.name FROM user u " +
+                .usersByUsernameQuery("SELECT login, password, active FROM users WHERE login=? AND active=true")
+                .authoritiesByUsernameQuery("SELECT u.login, r.name FROM users u " +
                         "JOIN user_roles ur ON u.id = ur.user_id " +
                         "JOIN role r ON ur.role_id = r.id WHERE u.login=?")
                 .passwordEncoder(passwordEncoder());
