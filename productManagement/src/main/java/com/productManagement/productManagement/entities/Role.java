@@ -1,14 +1,13 @@
 package com.productManagement.productManagement.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@RequiredArgsConstructor
 @Entity
 public class Role {
     @Id
@@ -16,6 +15,7 @@ public class Role {
     private Long id;
 
     @Column(nullable = false, unique = true)
+    @NonNull // Lombok will require this field in the constructor
     private String name;
 
 }

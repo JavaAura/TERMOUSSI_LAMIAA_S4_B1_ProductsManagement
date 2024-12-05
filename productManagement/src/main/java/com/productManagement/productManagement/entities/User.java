@@ -3,9 +3,12 @@ package com.productManagement.productManagement.entities;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -23,7 +26,8 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    private Boolean active;
+    @Column(nullable = false)
+    private boolean active=true;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -31,6 +35,6 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    private Collection<Role> roles;
+    private Set<Role> roles= new HashSet<>();
 
 }

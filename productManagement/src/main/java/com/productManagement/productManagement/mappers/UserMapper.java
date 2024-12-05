@@ -41,7 +41,7 @@ public interface UserMapper {
 
     // Custom mapping: Convert role names (Strings) to Role entities
     @Named("roleNamesToRoles")
-    default Collection<Role> roleNamesToRoles(Set<String> roleNames) {
+    default Set<Role> roleNamesToRoles(Set<String> roleNames) {
         if (roleNames == null) return null;
         return roleNames.stream()
                 .map(name -> {

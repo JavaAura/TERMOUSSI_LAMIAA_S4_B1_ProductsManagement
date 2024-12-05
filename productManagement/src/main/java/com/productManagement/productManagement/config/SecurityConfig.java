@@ -71,6 +71,7 @@ public class SecurityConfig {
     // Configuring JDBC Authentication for Prod profile
     @Bean
     @Profile("prod")
+    @Primary
     public AuthenticationManagerBuilder configureJdbcAuthentication(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication()
                 .dataSource(dataSource)
@@ -84,7 +85,6 @@ public class SecurityConfig {
 
     // Configuring In-Memory Authentication for Dev profile (Optional for testing)
     @Bean
-    @Primary
     @Profile("dev")
     public AuthenticationManagerBuilder configureInMemoryAuthentication(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
