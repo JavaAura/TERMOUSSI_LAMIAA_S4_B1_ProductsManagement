@@ -34,20 +34,23 @@ public class RoleService {
                 .collect(Collectors.toList());
     }
 
-//    public RoleResponseDTO getRoleById(Long id) {
-//        Role role = roleRepository.findById(id).orElseThrow(()->new RoleException(id));
-//        return roleMapper.toDTO(role);
-//    }
+    public RoleResponseDTO getRoleById(Long id) {
+        Role role = roleRepository.findById(id).orElseThrow(()->
+                new RoleException(roleRepository.findById(id).get().getName()));
+        return roleMapper.toDTO(role);
+    }
 
-//    public RoleResponseDTO updateRole(Long id, RoleRequestDTO roleRequestDTO) {
-//        Role role = roleRepository.findById(id).orElseThrow(()->new RoleException(id));
-//        roleMapper.updateEntityFromDTO(roleRequestDTO,role);
-//        roleRepository.save(role);
-//        return roleMapper.toDTO(role);
-//    }
+    public RoleResponseDTO updateRole(Long id, RoleRequestDTO roleRequestDTO) {
+        Role role = roleRepository.findById(id).orElseThrow(()->
+                new RoleException(roleRepository.findById(id).get().getName()));
+        roleMapper.updateEntityFromDTO(roleRequestDTO,role);
+        roleRepository.save(role);
+        return roleMapper.toDTO(role);
+    }
 
-//    public void deleteRole(Long id){
-//        Role role = roleRepository.findById(id).orElseThrow(()->new RoleException(id));
-//        roleRepository.delete(role);
-//    }
+    public void deleteRole(Long id){
+        Role role = roleRepository.findById(id).orElseThrow(()->
+                new RoleException(roleRepository.findById(id).get().getName()));
+        roleRepository.delete(role);
+    }
 }
