@@ -73,6 +73,11 @@ public class UserService {
 
         return userMapper.toDTO(updatedUser);
     }
+    public void deleteUser(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserException(id));
+        userRepository.delete(user);
+    }
     public User findByLogin(String login) {
         return userRepository.findByLogin(login);
     }
