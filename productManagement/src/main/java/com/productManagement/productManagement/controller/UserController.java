@@ -7,10 +7,7 @@ import com.productManagement.productManagement.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -27,5 +24,14 @@ public class UserController {
         UserResponseDTO userResponseDTO = userService.save(userRequestDTO);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(userResponseDTO);
+    }
+    @PutMapping("/{id}")
+    public ResponseEntity<UserResponseDTO> updateUser(
+            @PathVariable Long id,
+            @RequestBody @Valid UserRequestDTO userRequestDTO) {
+
+        UserResponseDTO updatedUser = userService.updateUser(id, userRequestDTO);
+
+        return ResponseEntity.ok(updatedUser);
     }
 }

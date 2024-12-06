@@ -23,12 +23,13 @@ public interface UserMapper {
 
     @Mapping(source = "roles", target = "roles")
     UserResponseDTO toDTO(User user);
-//    @Mapping(target = "id", ignore = true)
-//    void updateEntityFromDTO(UserRequestDTO userRequestDTO, @MappingTarget User user);
-default Set<String> map(Set<Role> roles) {
-    return roles.stream()
-            .map(Role::getName)
-            .collect(Collectors.toSet());
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "roles", ignore = true)
+    void updateEntityFromDTO(UserRequestDTO userRequestDTO, @MappingTarget User user);
+    default Set<String> map(Set<Role> roles) {
+        return roles.stream()
+                .map(Role::getName)
+                .collect(Collectors.toSet());
 }
 
 }
