@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -78,7 +79,16 @@ public class UserService {
                 .orElseThrow(() -> new UserException(id));
         userRepository.delete(user);
     }
-    public User findByLogin(String login) {
-        return userRepository.findByLogin(login);
+    public List<UserResponseDTO> getAllUsers() {
+        List<User> users = userRepository.findAll();
+        return users.stream()
+                .map(userMapper::toDTO)
+                .collect(Collectors.toList());
     }
+    public UserResponseDTO getUserById(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserException(id));
+        return userMapper.toDTO(user);
+    }
+
 }
