@@ -7,6 +7,8 @@ import com.productManagement.productManagement.exceptions.CategoryException;
 import com.productManagement.productManagement.mappers.CategoryMapper;
 import com.productManagement.productManagement.repository.CategoryRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -41,17 +43,19 @@ public class CategoryService {
         return categoryMapper.toDTO(category);
     }
 
-    public List<CategoryResponseDTO> getAllCategories() {
-        return categoryRepository.findAll().stream()
-                .map(categoryMapper::toDTO)
-                .collect(Collectors.toList());
+    public Page<CategoryResponseDTO> getCategories(Pageable pageable) {
+        Page<Category> categoryPage = categoryRepository.findAll(pageable);
+        return categoryPage.map(categoryMapper::toDTO);
     }
-
     public void deleteCategory(Long id) {
         if (!categoryRepository.existsById(id)) {
             throw new CategoryException(id);
         }
         categoryRepository.deleteById(id);
     }
+    public Page<CategoryResponseDTO> searchCategoriesByName(String name, Pageable pageable) {
+        Page<Category> categoryPage = categoryRepository.findByNameContainingIgnoreCase(name, pageable);
 
+        return categoryPage.map(categoryMapper::toDTO);
+    }
 }

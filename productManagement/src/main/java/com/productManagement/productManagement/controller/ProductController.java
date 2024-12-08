@@ -4,6 +4,8 @@ import com.productManagement.productManagement.dto.requestDTO.ProductRequestDTO;
 import com.productManagement.productManagement.dto.responseDTO.ProductResponseDTO;
 import com.productManagement.productManagement.service.ProductService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -34,8 +36,8 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ProductResponseDTO>> getAllProducts() {
-        List<ProductResponseDTO> products = productService.getAllProducts();
+    public ResponseEntity<Page<ProductResponseDTO>> getAllProducts(Pageable pageable) {
+        Page<ProductResponseDTO> products = productService.getAllProducts(pageable);
         return ResponseEntity.ok(products);
     }
 
@@ -49,5 +51,25 @@ public class ProductController {
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
         productService.deleteProduct(id);
         return ResponseEntity.noContent().build();
+    }
+    @GetMapping("/products/search")
+    public ResponseEntity<Page<ProductResponseDTO>> searchProducts(
+            @RequestParam String designation, Pageable pageable) {
+        Page<ProductResponseDTO> products = productService.searchProductsByDesignation(designation, pageable);
+        return ResponseEntity.ok(products);
+    }
+    @GetMapping("/products/searchByCategory")
+    public ResponseEntity<Page<ProductResponseDTO>> searchProductsByCategory(
+            @RequestParam String category, Pageable pageable) {
+
+        Page<ProductResponseDTO> products = productService.searchProductsByCategory(category, pageable);
+        return ResponseEntity.ok(products);
+    }
+    @GetMapping("/products/filterByCategory")
+    public ResponseEntity<Page<ProductResponseDTO>> filterProductsByCategory(
+            @RequestParam String category, Pageable pageable) {
+
+        Page<ProductResponseDTO> products = productService.filterProductsByCategory(category, pageable);
+        return ResponseEntity.ok(products);
     }
 }

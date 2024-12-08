@@ -7,6 +7,8 @@ import com.productManagement.productManagement.exceptions.ProductException;
 import com.productManagement.productManagement.mappers.ProductMapper;
 import com.productManagement.productManagement.repository.ProductRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,9 +34,9 @@ public class ProductService {
         return productMapper.toDTO(existingProduct);
     }
 
-    public List<ProductResponseDTO> getAllProducts() {
-        List<Product> products = productRepository.findAll();
-        return productMapper.toDTOList(products);
+    public Page<ProductResponseDTO> getAllProducts(Pageable pageable) {
+        Page<Product> products=productRepository.findAll(pageable);
+        return products.map(productMapper::toDTO);
     }
 
     public ProductResponseDTO getProductById(Long productId) {
@@ -47,5 +49,18 @@ public class ProductService {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new ProductException(productId));
         productRepository.delete(product);
+    }
+    public Page<ProductResponseDTO> searchProductsByDesignation(String designation, Pageable pageable) {
+        Page<Product> productPage = productRepository.findByDesignationContainingIgnoreCase(designation, pageable);
+        return productPage.map(productMapper::toDTO);
+    }
+    public Page<ProductResponseDTO> searchProductsByCategory(String category, Pageable pageable) {
+        Page<Product> productPage = productRepository.findByCategoryContainingIgnoreCase(category, pageable);
+
+        return productPage.map(productMapper::toDTO);
+    }
+    public Page<ProductResponseDTO> filterProductsByCategory(String category, Pageable pageable) {
+        Page<Product> productPage = productRepository.findByCategory(category, pageable);
+        return productPage.map(productMapper::toDTO);
     }
 }
